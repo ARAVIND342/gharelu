@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "255543890232",
+    "project_id": "gharelu-70071",
+    "storage_bucket": "gharelu-70071.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:255543890232:android:c5330db2485278868571cd",
+        "android_client_info": {
+          "package_name": "com.example.gharelu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "255543890232-vhq4s9s2qjgldqkf9hg587cuqau6ggnn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gharelu",
+            "certificate_hash": "160eaedd809de53550ee27873a1e3d8a629b96dc"
+          }
+        },
+        {
+          "client_id": "255543890232-tso33bnoqtho511dpufr2rpi9t7f4hcg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1UyVfdeUlH5YIiN16mKyRwggXhcS3BKI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "255543890232-tso33bnoqtho511dpufr2rpi9t7f4hcg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
