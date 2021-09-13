@@ -58,7 +58,7 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
   var units;
 
   String username, email, uid, number, shopName;
-  double latitude2, longitude2;
+  String latitude2, longitude2;
 
   _fetch() async {
     final firebaseUser = await FirebaseAuth.instance.currentUser;
@@ -202,6 +202,7 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
     String longitude,
     String category,
     String location,
+    String address,
   }) {
     busRef
         //.doc(_auth.currentUser.uid)
@@ -227,9 +228,10 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
       "shop": shopName,
       "latitude": latitude2,
       "longitude": longitude2,
-      "address": _addressController.text == null
-          ? CurrentAddress
-          : _addressController.text,
+      "address": address,
+      //_addressController.text == null
+      // ? CurrentAddress
+      //: _addressController.text,
       //'location': GeoPoint(this.latitude2, this.longitude2),
     });
   }
@@ -260,6 +262,9 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
       mediaUrl: mediaUrl,
       latitude: "${latitude1}",
       longitude: "${longitude1}",
+      address: _addressController.text != null
+          ? _addressController.text
+          : CurrentAddress,
       //location: GeoPoint(double.parse(latitude1), double.parse(longitude1)),
 
       //harvestDate: startDate.toString(),
@@ -285,8 +290,9 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
               FlatButton(
                 child: Text('OK'),
                 onPressed: () {
+                  Navigator.of(context, rootNavigator: true).pop();
                   //Navigator.push(context,MaterialPageRoute(builder: (context) => PostWizardStep1()));
-                  Navigator.of(context).pop();
+                  //Navigator.of(context).pop();
                 },
               )
             ],
@@ -684,7 +690,17 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          GestureDetector(
+                          ElevatedButton(
+                            onPressed:
+                                isUploading ? null : () => handleSubmit(),
+                            child: Center(
+                                child: Text(
+                              'Submit',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 15),
+                            )),
+                          ),
+                          /*GestureDetector(
                             child: Container(
                                 decoration: BoxDecoration(
                                   color: Colors.white,
@@ -703,7 +719,7 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
                                 ))),
                             onTap: isUploading ? null : () => handleSubmit(),
                             //color: Colors.white,
-                          ),
+                          ),*/
                           /* GestureDetector(
                             child: Container(
                                 decoration: BoxDecoration(

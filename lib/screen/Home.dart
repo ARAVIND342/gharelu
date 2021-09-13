@@ -341,7 +341,8 @@ class _HomeState extends State<Home> {
         print("lat is " + "${latitudeData1}");
         print("lon is " + "${longitudeData1}");
         _currentAddress =
-            "${place.locality}, ${place.street}, ${place.postalCode}, ${place.country}";
+        "${place.locality}, ${place.street}, ${place.postalCode}, ${place
+            .country}";
         print("Current address is " + _currentAddress);
 
         CurrentAddress = _currentAddress;
@@ -363,7 +364,7 @@ class _HomeState extends State<Home> {
   }
 
   final CollectionReference userRef =
-      FirebaseFirestore.instance.collection('Users');
+  FirebaseFirestore.instance.collection('Users');
 
   var units;
   TextEditingController distController = new TextEditingController();
@@ -381,8 +382,8 @@ class _HomeState extends State<Home> {
 
   String CurrentAddress = " ";
 
-  _getMinMaxLongLattoConsiderasperDistinact(
-      double latitude, double long, int radiusInKm) {
+  _getMinMaxLongLattoConsiderasperDistinact(double latitude, double long,
+      int radiusInKm) {
     var pi = 0.017453292519943295;
     var c = cos;
     double kmInLongitudeDegree = 111.320 * c((latitude / 180.0) * pi);
@@ -408,10 +409,19 @@ class _HomeState extends State<Home> {
 
   String getDistance(location) {
     var distance =
-        Geolocator.distanceBetween(lat1, long1, latitudeData1, longitudeData1);
+    Geolocator.distanceBetween(lat1, long1, latitudeData1, longitudeData1);
     //print("distance is :"+ "${distance}");
     var distanceInKm = distance / 1000;
     return distanceInKm.toStringAsFixed(2);
+  }
+
+  getTopMerchants() {
+    return FirebaseFirestore.instance
+        .collection('Selling details')
+        .where('Category', isEqualTo: valueSelected)
+    //.where("${double.parse(getDistance('location'))}", isLessThanOrEqualTo: 5)
+        .orderBy('Price')
+        .snapshots();
   }
 
   @override
@@ -487,118 +497,63 @@ class _HomeState extends State<Home> {
                         SizedBox(
                           height: 20,
                         ),
-                        /*Row(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                      color: Colors.green, border: Border.all()),
-                                  //color: Colors.green,
-                                  child: Container(
-                                    padding: EdgeInsets.only(left: 20.0),
-                                    //margin: EdgeInsets.only(left: 20.0),
-                                    //width: 250,
-                                    child: DropdownButtonFormField<String>(
-                                      items: [
-                                        DropdownMenuItem<String>(
-                                            value: 'vegetables',
-                                            child: Text(
-                                              'vegetables',
-                                              style: TextStyle(
-                                                fontFamily: 'Helvetica',
+                        Expanded(child: Container(
+                          child: StreamBuilder<QuerySnapshot>(
+                            stream: getTopMerchants(),
+                            builder: (context, snapshot) {
+                              if (!snapshot.hasData)
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              return Column(
+                                children: [
+                                  Container(
+                                    child: Flexible(
+                                      child: GridView.count(
+                                        crossAxisCount: 2,
+                                        scrollDirection: Axis.vertical,
+                                        children: snapshot.data.docs.map((DocumentSnapshot document){
+                                          return Padding(
+                                              padding:EdgeInsets.all(4.0),
+                                            child: GestureDetector(
+                                              onTap: (){print('clicked');},
+                                              child: Container(
+                                                width: 100,
+                                                child: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [SizedBox(
+                                                    width: 125,
+                                                    height: 110,
+                                                    child: Card(
+                                                        child: Container(
+                                                          width: 100,
+                                                          height: 110,
+                                                          decoration: BoxDecoration(
+                                                            image: DecorationImage(
+                                                              fit: BoxFit.fill,
+                                                              image: NetworkImage(
+                                                                  document['image']),
+                                                            ),
+                                                          ),
+                                                        )
+                                                      /*child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(4),
+                                              child: NetworkImage(document['image'],fit: BoxFit.cover,),
+                                            ),*/
+                                                    ),
+                                                  ),],
+                                                ),
                                               ),
-                                            )),
-                                        DropdownMenuItem<String>(
-                                            value: 'fruits',
-                                            child: Text(
-                                              'fruits',
-                                              style: TextStyle(
-                                                fontFamily: 'Helvetica',
-                                              ),
-                                            )),
-                                        DropdownMenuItem<String>(
-                                            value: 'tiffins',
-                                            child: Text(
-                                              'tiffins',
-                                              style: TextStyle(
-                                                fontFamily: 'Helvetica',
-                                              ),
-                                            )),
-                                        DropdownMenuItem<String>(
-                                            value: 'others',
-                                            child: Text(
-                                              'All',
-                                              style: TextStyle(
-                                                fontFamily: 'Helvetica',
-                                              ),
-                                            )),
-                                      ],
-                                      onChanged: (_value1) => valueChanged1(_value1),
-                                      validator: (value) =>
-                                      value == null ? 'Field required' : null,
-                                      hint: Text(
-                                        "Select Category",
-                                        style: TextStyle(
-                                            fontFamily: 'Helvetica',
-                                            fontWeight: FontWeight.bold),
+                                            ),
+                                          );
+                                        }).toList(),
                                       ),
                                     ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Expanded(
-                                child: Container(
-                                  width: 100,
-                                  decoration: BoxDecoration(
-                                      color: Colors.green, border: Border.all()),
-                                  //color: Colors.green,
-                                  child: Container(
-                                    padding: EdgeInsets.only(left: 20.0),
-                                    //width: 200,
-                                    child: DropdownButtonFormField<String>(
-                                      items: [
-                                        DropdownMenuItem<String>(
-                                            value: '2',
-                                            child: Text(
-                                              '2 km',
-                                              style: TextStyle(
-                                                fontFamily: 'Helvetica',
-                                              ),
-                                            )),
-                                        DropdownMenuItem<String>(
-                                            value: '5',
-                                            child: Text(
-                                              '5 km',
-                                              style: TextStyle(
-                                                fontFamily: 'Helvetica',
-                                              ),
-                                            )),
-                                      ],
-                                      onChanged: (_value1) => valueChanged1(_value1),
-                                      validator: (value) =>
-                                      value == null ? 'Field required' : null,
-                                      hint: Text(
-                                        "Distance",
-                                        style: TextStyle(
-                                            fontFamily: 'Helvetica',
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),*/
-                        SizedBox(
-                          height: 12,
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
+                                  )
+                                ],
+                              );
+                            },
+                          ),
+                        ))
                       ],
                     ),
                   ),
@@ -606,306 +561,6 @@ class _HomeState extends State<Home> {
               ],
             ),
           )),
-      /*appBar: PreferredSize(
-            preferredSize: Size(double.infinity, 300),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 60,
-                  ),
-                  //if (_currentPosition != null)
-                  // Text("current address is ${CurrentAddress}",style: TextStyle(color: Colors.black),),
-                  RaisedButton(
-                      child: Text('get current locaton'),
-                      onPressed: () async {
-                        //await locationInfo.getCurrentPosition();
-                        //if(locationInfo.permissionGranted == true){
-                        //Navigator.pushReplacement(context, MaterialPageRoute<void>(
-                        //builder: (BuildContext context) =>  MapView(),
-                        //),);
-                        //}
-                        //else{
-                        //print('Permission denied');
-                        //}
-
-                        getCurrentLocation();
-                        return await userRef.doc(uid).update({
-                          "latitude": "${latitudeData1}",
-                          "longitude": "${longitudeData1}",
-                        });
-                      }),
-                  Text(
-                    CurrentAddress,
-                    style: TextStyle(
-                        color: Colors.green[800],
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  /*Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          width: 100,
-                          decoration: BoxDecoration(
-                              color: Colors.green, border: Border.all()),
-                          //color: Colors.green,
-                          child: Container(
-                            padding: EdgeInsets.only(left: 20.0),
-                            //margin: EdgeInsets.only(left: 20.0),
-                            //width: 250,
-                            child: DropdownButtonFormField<String>(
-                              items: [
-                                DropdownMenuItem<String>(
-                                    value: 'vegetables',
-                                    child: Text(
-                                      'vegetables',
-                                      style: TextStyle(
-                                        fontFamily: 'Helvetica',
-                                      ),
-                                    )),
-                                DropdownMenuItem<String>(
-                                    value: 'fruits',
-                                    child: Text(
-                                      'fruits',
-                                      style: TextStyle(
-                                        fontFamily: 'Helvetica',
-                                      ),
-                                    )),
-                                DropdownMenuItem<String>(
-                                    value: 'tiffins',
-                                    child: Text(
-                                      'tiffins',
-                                      style: TextStyle(
-                                        fontFamily: 'Helvetica',
-                                      ),
-                                    )),
-                                DropdownMenuItem<String>(
-                                    value: 'others',
-                                    child: Text(
-                                      'All',
-                                      style: TextStyle(
-                                        fontFamily: 'Helvetica',
-                                      ),
-                                    )),
-                              ],
-                              onChanged: (_value1) => valueChanged1(_value1),
-                              validator: (value) =>
-                              value == null ? 'Field required' : null,
-                              hint: Text(
-                                "Select Category",
-                                style: TextStyle(
-                                    fontFamily: 'Helvetica',
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Expanded(
-                        child: Container(
-                          width: 100,
-                          decoration: BoxDecoration(
-                              color: Colors.green, border: Border.all()),
-                          //color: Colors.green,
-                          child: Container(
-                            padding: EdgeInsets.only(left: 20.0),
-                            //width: 200,
-                            child: DropdownButtonFormField<String>(
-                              items: [
-                                DropdownMenuItem<String>(
-                                    value: '2',
-                                    child: Text(
-                                      '2 km',
-                                      style: TextStyle(
-                                        fontFamily: 'Helvetica',
-                                      ),
-                                    )),
-                                DropdownMenuItem<String>(
-                                    value: '5',
-                                    child: Text(
-                                      '5 km',
-                                      style: TextStyle(
-                                        fontFamily: 'Helvetica',
-                                      ),
-                                    )),
-                              ],
-                              onChanged: (_value1) => valueChanged1(_value1),
-                              validator: (value) =>
-                              value == null ? 'Field required' : null,
-                              hint: Text(
-                                "Distance",
-                                style: TextStyle(
-                                    fontFamily: 'Helvetica',
-                                    fontWeight: FontWeight.bold),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),*/
-                  SizedBox(
-                    height: 12,
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                ],
-              ),
-            )),
-        backgroundColor: Colors.greenAccent[50],
-        body: Padding(
-          padding: const EdgeInsets.only(left:8.0),
-          child: Container(
-            child: Column(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 600,
-                    child: TopPickMerchant(),
-                  ),
-                ),
-              ],
-            ),
-            /*child: Center(
-              child: Container(
-                child: StreamBuilder(
-                    stream: _fetch1(),
-                    builder: (BuildContext context, AsyncSnapshot snapShot){
-                      if(!snapShot.hasData) return CircularProgressIndicator();
-                      return Column(
-                        children: [
-                          ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: snapShot.data.docs.map((DocumentSnapshot document) {
-                              return Padding(
-                                padding: const EdgeInsets.all(4.0),
-                                child: Container(
-                                  width: 80,
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        width: 80,
-                                        height: 80,
-                                        child: Card(
-                                          child: ClipRRect(
-                                            borderRadius: BorderRadius.circular(4),
-                                            child:  Image.network(document['image'],fit: BoxFit.cover,),
-                                          ),
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Text(document['shop']),
-                                      )
-
-                                    ],
-                                  ),
-                                ),
-                              );
-                            }).toList(),
-                          )
-                        ],
-                      );
-                    }),
-              ),
-            ),*/
-            /*child: FutureBuilder(
-                future: valueSelected == 'others' ? _fetch1() : _fetch(),
-                builder: (_, snapshot) {
-                  if (snapshot.connectionState != ConnectionState.done)
-                    return Center(child: CircularProgressIndicator(),);
-                  // if(snapshot.hasData) return Center(child: CircularProgressIndicator());
-                   /*List shopDistance = [];
-                  for(int i=0 ; i<=snapshot.data.length; i++ ){
-                    var distance = Geolocator.distanceBetween(lat1, long1, latitudeData1, longitudeData1);
-                    var distanceinKm = distance/1000;
-                    shopDistance.add(distanceinKm);
-                  }*/
-                  //if (double.parse(getDistance(currentLocation)) <= 5) {
-                    return GridView.builder(
-                        itemCount:
-                        snapshot.data != null ? snapshot.data.length : null,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
-                        itemBuilder: (BuildContext context, int index) {
-                          DocumentSnapshot data =
-                          snapshot.data != null ? snapshot.data[index] : null;
-                          return GestureDetector(
-                            onTap: () =>
-                            {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          ListScreen(
-                                            data["Category"],
-                                            data["SubCategory"],
-                                          ))),
-                            },
-                            child: Card(
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      width: 120.0,
-                                      height: 150.0,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                            fit: BoxFit.fill,
-                                            image: NetworkImage(data['image']) ==
-                                                null
-                                                ? AssetImage('images/pic3.jpg')
-                                                : NetworkImage(data['image']),
-                                          )),
-                                    ),
-                                  ),
-                                  Text(
-                                    data["Category"],
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16.0),
-                                  ),
-                                  Text(
-                                    data["SubCategory"],
-                                    style: TextStyle(fontSize: 14.0),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 40.0),
-                                    child: Center(
-                                      child: Row(
-                                        children: [
-                                          Text(
-                                            "Rs ${data["Price"]}  ",
-                                            style: TextStyle(fontSize: 14.0),
-                                          ),
-                                          Text(
-                                            data["units"],
-                                            style: TextStyle(fontSize: 14.0),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                  //Text(getDistance(getCurrentLocation())),
-                                ],
-                              ),
-                              //),
-                            ),
-                          );
-                        });
-
-
-                }),*/
-          ),
-        ));*/
     );
   }
 
@@ -913,7 +568,7 @@ class _HomeState extends State<Home> {
     try {
       final response = await http
           .get(
-              'https://kaleidosblog.s3-eu-west-1.amazonaws.com/flutter_gallery/data.json')
+          'https://kaleidosblog.s3-eu-west-1.amazonaws.com/flutter_gallery/data.json')
           .timeout(Duration(seconds: 5));
 
       if (response.statusCode == 200) {
