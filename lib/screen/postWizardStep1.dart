@@ -214,7 +214,7 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
       "Name": firstName,
       "Start Date": StartDate,
       "End Date": EndDate,
-      //"Category": valueSelected,
+      "Category": category,
       //"SubCategory": value1,
       "Price": int.parse(price),
       "image": mediaUrl,
@@ -232,7 +232,7 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
       //_addressController.text == null
       // ? CurrentAddress
       //: _addressController.text,
-      //'location': GeoPoint(this.latitude2, this.longitude2),
+      'location': GeoPoint(this.latitudeData1, this.longitudeData1),
     });
   }
 
@@ -262,8 +262,7 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
       mediaUrl: mediaUrl,
       latitude: "${latitude1}",
       longitude: "${longitude1}",
-      address: _addressController.text != null
-          ? _addressController.text
+      address: _addressController.text.isNotEmpty ?   _addressController.text
           : CurrentAddress,
       //location: GeoPoint(double.parse(latitude1), double.parse(longitude1)),
 
@@ -277,8 +276,6 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
     setState(() {
       file = null;
       isUploading = false;
-      //valueSelected = null;
-      //value1 = null;
     });
     return showDialog(
         context: context,
@@ -329,8 +326,8 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
   Position currentLocation;
 
   getCurrentLocation() async {
-    Position geoPosition = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    final geoPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best);
     setState(() {
       latitudeData = geoPosition.latitude;
       longitudeData = geoPosition.longitude;

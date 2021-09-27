@@ -115,7 +115,7 @@ class _AccountState extends State<Account> {
             ),
           ),
           SizedBox(height: 20,),
-          Container(
+          /*Container(
             decoration: BoxDecoration(
               border: Border.all(color: Colors.orange),
             ),
@@ -143,7 +143,7 @@ class _AccountState extends State<Account> {
               ),
             ),
           ),
-          SizedBox(height: 20,),
+          SizedBox(height: 20,),*/
           Container(
             decoration: BoxDecoration(
               border: Border.all(color: Colors.orange),

@@ -81,7 +81,7 @@ class _MessagesState extends State<Messages> {
                                     data['customer uid'],
                                     data["message"],
                                     data['Category'],
-                                    data['SubCategory'],
+                                    //data['SubCategory'],
                                     data['Price'],
                                     data['Units'],
                                 ))); */
@@ -103,7 +103,7 @@ class _MessagesState extends State<Messages> {
                                           fontSize: 18.0),
                                     ),
                                     Text(data['Category']),
-                                    Text(data['SubCategory']),
+                                    //Text(data['SubCategory']),
                                     Text(data['Price'] + "  " + data['Units']),
                                   ],
                                 ),

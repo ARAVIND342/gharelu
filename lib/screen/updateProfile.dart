@@ -133,8 +133,8 @@ class _UpdateProfileState extends State<UpdateProfile> {
     //getCurrentLocation();
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.yellow[100],
-        title: Text('Update Profile',style: TextStyle(color: Colors.orange[900]),),
+        backgroundColor: Colors.orange,
+        title: Text('Update Profile',style: TextStyle(color: Colors.white),),
         centerTitle: true,
       /*  actions: <Widget>[
           IconButton(
@@ -153,7 +153,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
           future: _fetch(),
           builder: (_, snapshot) {
             if (snapshot.connectionState != ConnectionState.done)
-              return Text('Loading... please wait');
+              return Center(child: CircularProgressIndicator(),);
             return Container(
               child: Form(
                 key: _key,
@@ -179,7 +179,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                               child: Text('Mode of business'),
                             ),
 
-                            Row(
+                            /*Row(
                               children: [
                                 Radio(
                                   value: 'Fixed',
@@ -187,7 +187,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                 ),
                                 Text('Fixed'),
                               ],
-                            )
+                            )*/
                           ],
                         ),
                       ),

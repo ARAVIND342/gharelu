@@ -67,19 +67,19 @@ class ViewMore extends StatelessWidget {
   Widget build(BuildContext context) {
     _fetch();
     return Scaffold(
-      backgroundColor: Colors.greenAccent[50],
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text('Details'),
-        backgroundColor: Colors.green[600],
-        leading: IconButton(
+        backgroundColor: Colors.orange,
+        /*leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: ((context) => HomePage())));
           },
-        ),
+        ),*/
       ),
-      body: SingleChildScrollView(
+      body: SingleChildScrollView( 
         child: Container(
           child: FutureBuilder(
             future: _fetch(),

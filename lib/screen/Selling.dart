@@ -66,11 +66,6 @@ class _SellingState extends State<Selling> {
         print(e);
       });
 
-    //print("CATEGORY---- " + Category1);
-    //print("SUBCATEGORY---- " + SubCategory1);
-
-    //_getMinMaxLongLattoConsiderasperDistinact(latitude1, latitude2, 2);
-
     var firestore = FirebaseFirestore.instance;
     QuerySnapshot qn = await firestore
         .collection("Selling details")
@@ -201,7 +196,10 @@ class _SellingState extends State<Selling> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.yellow[100],
-        title: Text('Update Product Details',style: TextStyle(color: Colors.orange[900]),),
+        title: Text(
+          'Update Product Details',
+          style: TextStyle(color: Colors.orange[900]),
+        ),
         centerTitle: true,
         /*leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -211,23 +209,21 @@ class _SellingState extends State<Selling> {
           },
         ),*/
       ),
-     // backgroundColor: Colors.green[200],
+      // backgroundColor: Colors.green[200],
       body: Container(
         child: FutureBuilder(
           future: _fetch(),
           builder: (_, snapshot) {
             if (snapshot.connectionState != ConnectionState.done)
-              return Center(child: CircularProgressIndicator(),);
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             return ListView.builder(
                 itemCount: snapshot.data != null ? snapshot.data.length : null,
                 itemBuilder: (_, index) {
                   DocumentSnapshot data =
                       snapshot.data != null ? snapshot.data[index] : null;
                   return Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.green[200]),
-                    ),
-                    //width: 100,
                     height: 130,
                     child: Card(
                       child: Column(
@@ -237,33 +233,31 @@ class _SellingState extends State<Selling> {
                               width: 70.0,
                               height: 70.0,
                               decoration: BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  //border: Border.all(
-                                  //color: Colors.red[500],
-                                  //),
-                                  image: DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image: NetworkImage(data['image']) == null
-                                        ? AssetImage('images/pic3.jpg')
-                                        : NetworkImage(data['image']),
-                                  )),
+                                shape: BoxShape.rectangle,
+                                //border: Border.all(
+                                //color: Colors.red[500],
+                                //),
+                                image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: NetworkImage(data['image']) == null
+                                      ? AssetImage('images/pic3.jpg')
+                                      : NetworkImage(data['image']),
+                                ),
+                              ),
                             ),
                             title: Row(
                               children: [
                                 Expanded(
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         data["Category"],
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16.0),
-                                      ),
-                                      Text(
-                                        data["SubCategory"],
-                                        style: TextStyle(fontSize: 14.0),
                                       ),
                                       Row(
                                         children: [
@@ -283,15 +277,18 @@ class _SellingState extends State<Selling> {
                                   ),
                                 ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
                                   //crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     //if (data['uid'] == uid)
-                                      Padding(
-                                        padding: const EdgeInsets.only(left: 16.0),
-                                        child: RaisedButton(
-                                            onPressed: () {
-                                              Navigator.push(context,MaterialPageRoute(builder: (context) => UpdateDetails(data['Name'] != null
+                                    Padding(
+                                      padding:
+                                          const EdgeInsets.only(left: 16.0),
+                                      child: RaisedButton(
+                                          onPressed: () {
+                                            print('clicked');
+                                            Navigator.push(context,MaterialPageRoute(builder: (context) => UpdateDetails(data['Name'] != null
                                                   ? data['Name']
                                                   : " ",
                                                 data["Price"] != null
@@ -301,9 +298,9 @@ class _SellingState extends State<Selling> {
                                                 "${data['number']}" != null
                                                     ?  "${data['number']}"
                                                     : " ",
-                                                data['shop'] == null
-                                                    ? " "
-                                                    : data['shop'],
+                                               // data['shop'] == null
+                                                 //   ? " "
+                                                   // : data['shop'],
                                                 data['image'] == null
                                                     ? " "
                                                     : data['image'],
@@ -311,34 +308,11 @@ class _SellingState extends State<Selling> {
                                                 data['End Date'] == null ? " ": data['End Date'],
                                                 data['postId'] == null ? " ": data['postId'],
                                                 data['Category'] == null ? " ": data['Category'],
-                                                data['SubCategory'] == null ? " ": data['SubCategory'],
+                                                //data['SubCategory'] == null ? " ": data['SubCategory'],
                                               )));
-                                              /*Navigator.of(context).pushReplacement(
-                                                  MaterialPageRoute(builder: ((context) => UpdateDetails( data['Name'] != null
-                                                      ? data['Name']
-                                                      : " ",
-                                                    data["Price"] != null
-                                                        ? data["Price"]
-                                                        : " ",
-                                                    data["units"] != null ? data["units"] : " ",
-                                                    "${data['number']}" != null
-                                                        ?  "${data['number']}"
-                                                        : " ",
-                                                    data['shop'] == null
-                                                        ? " "
-                                                        : data['shop'],
-                                                    data['image'] == null
-                                                        ? " "
-                                                        : data['image'],
-                                                    data['Start Date'] == null ? " ": data['Start Date'],
-                                                    data['End Date'] == null ? " ": data['End Date'],
-                                                    data['postId'] == null ? " ": data['postId'],
-                                                    data['Category'] == null ? " ": data['Category'],
-                                                    data['SubCategory'] == null ? " ": data['SubCategory'],
-                                                  ))));*/
-                                            },
-                                            child: Text('update')),
-                                      ),
+                                          },
+                                          child: Text('update')),
+                                    ),
                                   ],
                                 ),
                               ],

@@ -19,26 +19,27 @@ class UpdateDetails extends StatefulWidget {
   final int price;
   final String units;
   final String number1;
-  final String shopName1;
+  //final String shopName1;
   final String pic;
   final String startDate;
   final String endDate;
   final String postId;
   final String category;
-  final String subCategory;
+  //final String subCategory;
 
   UpdateDetails(
       this.sellerName,
       this.price,
       this.units,
       this.number1,
-      this.shopName1,
+    //  this.shopName1,
       this.pic,
       this.startDate,
       this.endDate,
       this.postId,
       this.category,
-      this.subCategory);
+    //  this.subCategory
+    );
 
   @override
   _UpdateDetailsState createState() => _UpdateDetailsState();
@@ -77,13 +78,13 @@ class _UpdateDetailsState extends State<UpdateDetails> {
         print("seller is  " + "${widget.price}");
         print("seller is  " + widget.units);
         print("seller is  " + widget.number1);
-        print("seller is  " + widget.shopName1);
+        //print("seller is  " + widget.shopName1);
         print("seller is  " + widget.pic);
         print("seller is  " + widget.startDate);
         print("seller is  " + widget.endDate);
         print("seller is  " + widget.postId);
         print("seller is  " + widget.category);
-        print("seller is  " + widget.subCategory);
+        //print("seller is  " + widget.subCategory);
         //print(units);
       }).catchError((e) {
         print(e);
@@ -513,13 +514,13 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                       SizedBox(
                         height: 30,
                       ),
-                      Text(
+                      /*Text(
                         "SubCategory  :" + widget.subCategory,
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
-                      ),
+                      ),*/
                       /*ListTile(
                         /*leading: Icon(
                             Icons.food_bank,
@@ -673,8 +674,9 @@ class _UpdateDetailsState extends State<UpdateDetails> {
                                         FlatButton(
                                           child: Text('OK'),
                                           onPressed: () {
+                                            Navigator.of(context, rootNavigator: true).pop();
                                             //Navigator.push(context,MaterialPageRoute(builder: (context) => PostWizardStep1()));
-                                            Navigator.of(context).pop(true);
+                                           // Navigator.of(context).pop(true);
                                             //Navigator.push(context,MaterialPageRoute(builder: (context) => Selling()));
                                           },
                                         )

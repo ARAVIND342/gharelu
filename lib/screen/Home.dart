@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dropdown_formfield/dropdown_formfield.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -139,100 +140,6 @@ class _HomeState extends State<Home> {
     });
   }*/
 
-  final vegetables = {
-    "1": "Raw Banana/ అరటికాయ ",
-    "2": "Bottle Gourd/ ఆనపకాయ ",
-    "3": "Potato/ ఆలుగడ్డ ",
-    "4": "Goose Berry/ ఉసిరికాయ ",
-    "5": "Red Chilli/ ఎండు మిరపకాయ",
-    "6": "Bitter Gourd/ కాకర కాయ",
-    "7": "Coriander/ కొత్తిమీర ",
-    "8": "Curry Leaves/ కరివేపాకు ",
-    "9": "Suran/ కందగడ్డ ",
-    "10": "Cauliflower/ కాలి ఫ్లవర్",
-    "11": "Cabbage/ క్యాబేజ్ ",
-    "12": "Coconut/ కొబ్బరికాయ ",
-    "13": "Kenaf/ గోంగూర ",
-    "14": "Cluster beans/ గోకర కాయం",
-    "15": "Broad Beans/ చిక్కుడు కాయ",
-    "16": "Taro Root/ చీమదుంప ",
-    "17": "Red sorrel/ చుక్కకూర ",
-    "18": "Tomato/ టమాట ",
-    "19": "Amaranthus/ తోటకూర ",
-    "20": "Tindoora/ దొండకాయ ",
-    "21": "Cucumber/ దోసకాయ ",
-    "22": "Green Chilli/ పచ్చి మిరపకాయ",
-    "23": "Jack Fruit/ పనసకాయ ",
-    "24": "Sorrel/ పాలకూర ",
-    "25": "Mushroom/ పుట్టగొడుగులు ",
-    "26": "Mint Leaves/ పుదీన ",
-    "27": "Snake Gourd/ పొట్లకాయ ",
-    "28": "Green Peas/ బఠాని ",
-    "29": "Betroot/ బీట్ రూట్",
-    "30": "Spinach/ బచ్చలి కూర",
-    "31": "Potato/ బంగాళా దుంప",
-    "32": "Ridge Gourd/ బీరకాయ ",
-    "33": "Ash Gourd/ బూడిది గుమ్మడికాయ",
-    "34": "Capsicum/ బెంగుళూరు మిర్చి",
-    "35": "Lady's Finger / బెండకాయ ",
-    "36": "Raw Mango/ మామిడి కాయ",
-    "37": "Drumstick/ ములక్కాయ మొనక్కాయ",
-    "38": "Radish/ ముల్లంగి ",
-    "39": "Fenugreek leaves/ మెంతి కూర",
-    "40": "Corn/ మొక్క జొన్న",
-    "41": "Sweet Potato/ మోరం  గడ్డ",
-    "42": "Brinjal/ వంకాయ ",
-    "43": "Garlic/ వెల్లుల్లి ",
-    "44": "hill glory bower/ సరస్వతి ఆకు",
-    "45": "Bottle Gourd/ సొరకాయ ",
-  };
-
-  final fruits = {
-    "1": "Muskmelon/ ఖర్బుజ",
-    "2": "Banana/ అరటి పండు",
-    "3": "pineapple/ అనాస",
-    "4": "jackfruit/ పనస పండు",
-    "5": "papaya/ బొబ్బాయ",
-    "6": "pomegranate/ దానిమ్మ",
-    "7": "Dates/ ఖర్జూరం",
-    "8": "berry/ నేరేడు",
-    "9": "Custard Apple/ సీతాఫలం",
-    "10": "watermelon/ పుచ్చ కాయ",
-    "11": "Sapodilla/ సపోటా",
-    "12": "plum/ రేగు",
-    "13": "guava/ జామ",
-    "14": "grapes/ ద్రాక్ష",
-    "15": "mango/ మామిడి",
-    "16": "mosambi/ బత్తయ్",
-    "17": "orange/ నారింజ",
-    "18": "Sweet Orange/ కమల ఫలం",
-    "19": "apple/ సేపు",
-    "20": "strawberry/ బెర్",
-  };
-
-  final tiffins = {
-    "1": "idly/ ఇడ్లీ",
-    "2": "vada/ వాడా",
-    "3": "mysore bonda/ మైసోర్ బోండా",
-    "4": "upma/ ఉప్మా",
-    "5": "poori/ పూరి",
-    "6": "Uthappam/ ఉతప్పం",
-    "7": "Semiya Upma/ సెమియా ఉప్మా",
-    "8": "Puttu/ పుట్టు",
-    "9": "Rava Dosa/ రవ దోస",
-    "10": "Punugulu/ పునుగులు",
-    "11": "Chapathi/ చపాతి",
-    "12": "Pongal/ పొంగల్",
-    "13": "Aloo Bonda/ ఆలు బోండా",
-    "14": "Tomato Baath/ టొమాటో బాత్",
-    "15": "Bisi Bele Baath/ బిసి బెలే బాత్",
-    "16": "Pulihora/ పులిహోరా",
-    "17": "Daddojanam/ దద్దోజనమ్",
-    "18": "Appam/ అప్పం",
-    "19": "Pesarattu/ పెసారట్టు",
-    "20": "Dosa/ దోస",
-  };
-
   List<DropdownMenuItem<String>> menuItems1 = List();
 
   final GlobalKey<FormFieldState> _vegetablekey = GlobalKey();
@@ -240,79 +147,6 @@ class _HomeState extends State<Home> {
   String value1 = "";
   String valueSelected = " ";
   bool disableDropDown = true;
-
-  void populateVegetables() {
-    for (String key in vegetables.keys) {
-      menuItems1.add(DropdownMenuItem<String>(
-        value: vegetables[key],
-        child: Text(vegetables[key]),
-      ));
-    }
-  }
-
-  void populateFruits() {
-    for (String key in fruits.keys) {
-      menuItems1.add(DropdownMenuItem<String>(
-        value: fruits[key],
-        child: Text(fruits[key]),
-      ));
-    }
-  }
-
-  void populateTiffins() {
-    for (String key in tiffins.keys) {
-      menuItems1.add(DropdownMenuItem<String>(
-        value: tiffins[key],
-        child: Text(tiffins[key]),
-      ));
-    }
-  }
-
-  populateOthers() {
-    return TextFormField(
-      keyboardType: TextInputType.text,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: "enter what you need",
-        labelStyle: TextStyle(fontSize: 15.0),
-        hintText: "Must be at least 3 characters",
-      ),
-    );
-  }
-
-  void valueChanged1(_value1) {
-    //_vegetablekey.currentState.reset();
-    if (_value1 == "vegetables") {
-      menuItems1 = List();
-      populateVegetables();
-    } else if (_value1 == "fruits") {
-      menuItems1 = List();
-      populateFruits();
-    } else if (_value1 == "tiffins") {
-      menuItems1 = List();
-      populateTiffins();
-    } else if (_value1 == "others") {
-      populateOthers();
-    }
-    setState(() {
-      value = _value1;
-      valueSelected = value;
-      disableDropDown = false;
-    });
-  }
-
-  void thirdValueChanged(_value1) {
-    setState(() {
-      value1 = _value1;
-    });
-  }
-
-  //list(){
-  //Navigator.of(context).pushReplacement(
-  //  MaterialPageRoute(builder: ((context) => ListScreen(
-  //))));
-  //}
-  //LatLng _center;
 
   Position currentLocation;
 
@@ -327,7 +161,7 @@ class _HomeState extends State<Home> {
     latitudeData1 = latitudeData;
     longitudeData1 = longitudeData;
 
-    _getMinMaxLongLattoConsiderasperDistinact(lat1, long1, 3);
+   // _getMinMaxLongLattoConsiderasperDistinact(lat1, long1, 3);
 
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(
@@ -341,8 +175,7 @@ class _HomeState extends State<Home> {
         print("lat is " + "${latitudeData1}");
         print("lon is " + "${longitudeData1}");
         _currentAddress =
-        "${place.locality}, ${place.street}, ${place.postalCode}, ${place
-            .country}";
+            "${place.locality}, ${place.street}, ${place.postalCode}, ${place.country}";
         print("Current address is " + _currentAddress);
 
         CurrentAddress = _currentAddress;
@@ -364,7 +197,7 @@ class _HomeState extends State<Home> {
   }
 
   final CollectionReference userRef =
-  FirebaseFirestore.instance.collection('Users');
+      FirebaseFirestore.instance.collection('Users');
 
   var units;
   TextEditingController distController = new TextEditingController();
@@ -382,8 +215,8 @@ class _HomeState extends State<Home> {
 
   String CurrentAddress = " ";
 
-  _getMinMaxLongLattoConsiderasperDistinact(double latitude, double long,
-      int radiusInKm) {
+  _getMinMaxLongLattoConsiderasperDistinact(
+      double latitude, double long, int radiusInKm) {
     var pi = 0.017453292519943295;
     var c = cos;
     double kmInLongitudeDegree = 111.320 * c((latitude / 180.0) * pi);
@@ -409,7 +242,7 @@ class _HomeState extends State<Home> {
 
   String getDistance(location) {
     var distance =
-    Geolocator.distanceBetween(lat1, long1, latitudeData1, longitudeData1);
+        Geolocator.distanceBetween(lat1, long1, latitudeData1, longitudeData1);
     //print("distance is :"+ "${distance}");
     var distanceInKm = distance / 1000;
     return distanceInKm.toStringAsFixed(2);
@@ -419,10 +252,12 @@ class _HomeState extends State<Home> {
     return FirebaseFirestore.instance
         .collection('Selling details')
         .where('Category', isEqualTo: valueSelected)
-    //.where("${double.parse(getDistance('location'))}", isLessThanOrEqualTo: 5)
+        //.where("${double.parse(getDistance('location'))}", isLessThanOrEqualTo: 5)
         .orderBy('Price')
         .snapshots();
   }
+
+  String _myActivity;
 
   @override
   Widget build(BuildContext context) {
@@ -442,62 +277,116 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
       backgroundColor: Colors.white,
-      /*appBar: AppBar(
-          backgroundColor: Colors.green[800],
-          //title: Text("${_currentAddress} "),
-        ),*/
       appBar: PreferredSize(
-          preferredSize: Size(double.infinity, 300),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Container(
-                    height: 250,
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.orange),
-                        borderRadius: BorderRadius.circular(20)),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 60,
+        preferredSize: Size(double.infinity, 300),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 60,
+              ),
+              //if (_currentPosition != null)
+              // Text("current address is ${CurrentAddress}",style: TextStyle(color: Colors.black),),
+              RaisedButton(
+                  child: Text('get current locaton'),
+                  onPressed: () async {
+                    getCurrentLocation();
+                    return await userRef.doc(uid).update({
+                      "latitude": "${latitudeData1}",
+                      "longitude": "${longitudeData1}",
+                    });
+                  }),
+              Text(
+                CurrentAddress,
+                style: TextStyle(
+                    color: Colors.green[800],
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                height: 12,
+              ),
+              SizedBox(
+                height: 5,
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 8.0),
+        child: Container(
+          child: Column(
+            children: [
+              Expanded(
+                child: Container(
+                  height: 600,
+                  child: TopPickMerchant(),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+    /*appBar: AppBar(
+          title:Text('Home'),
+          backgroundColor: Colors.orange,
+        ),*/
+    /*body: SingleChildScrollView(
+          child: Column(
+            children: [
+
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Container(
+                  height: 200,
+                  decoration: BoxDecoration(
+                      border: Border.all(color: Colors.orange),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 60,
+                      ),
+                      //if (_currentPosition != null)
+                      // Text("current address is ${CurrentAddress}",style: TextStyle(color: Colors.black),),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.deepOrange),
                         ),
-                        //if (_currentPosition != null)
-                        // Text("current address is ${CurrentAddress}",style: TextStyle(color: Colors.black),),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.deepOrange),
-                          ),
-                          height: 35,
-                          width: 250,
-                          child: GestureDetector(
-                              child: Center(child: Text('get current locaton')),
-                              onTap: () async {
-                                getCurrentLocation();
-                                return await userRef.doc(uid).update({
-                                  "latitude": "${latitudeData1}",
-                                  "longitude": "${longitudeData1}",
-                                });
-                              }),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          CurrentAddress != null
-                              ? CurrentAddress
-                              : CircularProgressIndicator(),
-                          style: TextStyle(
-                              color: Colors.deepOrange[800],
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Expanded(child: Container(
+                        height: 35,
+                        width: 250,
+                        child: GestureDetector(
+                            child: Center(child: Text('get current locaton')),
+                            onTap: () async {
+                              getCurrentLocation();
+                              return await userRef.doc(uid).update({
+                                "latitude": "${latitudeData1}",
+                                "longitude": "${longitudeData1}",
+                              });
+                            }),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        CurrentAddress != null
+                            ? CurrentAddress
+                            : CircularProgressIndicator(),
+                        style: TextStyle(
+                            color: Colors.deepOrange[800],
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Expanded(
+                        child: Container(
                           child: StreamBuilder<QuerySnapshot>(
                             stream: getTopMerchants(),
                             builder: (context, snapshot) {
@@ -511,36 +400,47 @@ class _HomeState extends State<Home> {
                                       child: GridView.count(
                                         crossAxisCount: 2,
                                         scrollDirection: Axis.vertical,
-                                        children: snapshot.data.docs.map((DocumentSnapshot document){
+                                        children: snapshot.data.docs
+                                            .map((DocumentSnapshot document) {
                                           return Padding(
-                                              padding:EdgeInsets.all(4.0),
+                                            padding: EdgeInsets.all(4.0),
                                             child: GestureDetector(
-                                              onTap: (){print('clicked');},
+                                              onTap: () {
+                                                print('clicked');
+                                              },
                                               child: Container(
                                                 width: 100,
                                                 child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [SizedBox(
-                                                    width: 125,
-                                                    height: 110,
-                                                    child: Card(
-                                                        child: Container(
-                                                          width: 100,
-                                                          height: 110,
-                                                          decoration: BoxDecoration(
-                                                            image: DecorationImage(
-                                                              fit: BoxFit.fill,
-                                                              image: NetworkImage(
-                                                                  document['image']),
+                                                  crossAxisAlignment:
+                                                  CrossAxisAlignment
+                                                      .start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 125,
+                                                      height: 110,
+                                                      child: Card(
+                                                          child: Container(
+                                                            width: 100,
+                                                            height: 110,
+                                                            decoration:
+                                                            BoxDecoration(
+                                                              image:
+                                                              DecorationImage(
+                                                                fit: BoxFit
+                                                                    .fill,
+                                                                image: NetworkImage(
+                                                                    document[
+                                                                    'image']),
+                                                              ),
                                                             ),
-                                                          ),
-                                                        )
-                                                      /*child: ClipRRect(
+                                                          )
+                                                        /*child: ClipRRect(
                                               borderRadius: BorderRadius.circular(4),
                                               child: NetworkImage(document['image'],fit: BoxFit.cover,),
                                             ),*/
+                                                      ),
                                                     ),
-                                                  ),],
+                                                  ],
                                                 ),
                                               ),
                                             ),
@@ -548,27 +448,140 @@ class _HomeState extends State<Home> {
                                         }).toList(),
                                       ),
                                     ),
-                                  )
+                                  ),
                                 ],
                               );
                             },
                           ),
-                        ))
-                      ],
-                    ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ],
-            ),
-          )),
-    );
+              ),
+              /*ListTile(
+                title: Container(
+                  width: 250,
+                  child: DropDownFormField(
+                    titleText: 'Select Category',
+                    hintText: 'Please choose one',
+                    value: _myActivity,
+                    onSaved: (value) {
+                      setState(() {
+                        _myActivity = value;
+                      });
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        _myActivity = value;
+                      });
+                    },
+                    dataSource: [
+                      {
+                        "display": "Veg Only Breakfast",
+                        "value": "Veg Only Breakfast",
+                      },
+                      {
+                        "display": "Veg Only Lunch",
+                        "value": "Veg Only Lunch",
+                      },
+                      {
+                        "display": "Veg Only Dinner",
+                        "value": "Veg Only Dinner",
+                      },
+                      {
+                        "display": "Non-Veg Only Breakfast",
+                        "value": "Non-Veg Only Breakfast",
+                      },
+                      {
+                        "display": "Non-Veg Only Lunch",
+                        "value": "Non-Veg Only Lunch",
+                      },
+                      {
+                        "display": "Non-Veg Only Dinner",
+                        "value": "Non-Veg Only Dinner",
+                      },
+                    ],
+                    textField: 'display',
+                    valueField: 'value',
+                  ),
+                ),
+                /*child: DropdownButtonFormField<String>(
+                              items: [
+                                DropdownMenuItem<String>(
+                                  value: 'Veg Only Brakfast',
+                                    child: Text(
+                                      'Veg Only Brakfast',
+                                      style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                      ),
+                                    )
+                                ),
+                                DropdownMenuItem<String>(
+                                    value: 'Veg only lunch',
+                                    child: Text(
+                                      'Veg only lunch',
+                                      style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                      ),
+                                    )
+                                ),
+                                DropdownMenuItem<String>(
+                                    value: 'Veg only Dinner',
+                                    child: Text(
+                                      'Veg only Dinner',
+                                      style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                      ),
+                                    )
+                                ),
+                                DropdownMenuItem<String>(
+                                  value: 'Non-Veg Only Brakfast',
+                                    child: Text(
+                                      'Non-Veg Only Brakfast',
+                                      style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                      ),
+                                    )
+                                ),
+                                DropdownMenuItem<String>(
+                                    value: 'Non-Veg only lunch',
+                                    child: Text(
+                                      'Non-Veg only lunch',
+                                      style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                      ),
+                                    )
+                                ),
+                                DropdownMenuItem<String>(
+                                    value: 'Non-Veg only Dinner',
+                                    child: Text(
+                                      'Non-Veg only Dinner',
+                                      style: TextStyle(
+                                        fontFamily: 'Helvetica',
+                                      ),
+                                    )
+                                )
+                              ],
+                              //onChanged: (_value1) => valueChanged1(_value1),
+                              validator: (value) => value == null ? 'Field required': null,
+                              hint: Text(
+                                "Select Category",
+                                style: TextStyle(fontFamily: 'Helvetica'),
+                              ),
+                            ),*/
+              ),*/
+              SizedBox(height: 30),
+            ],
+          ),
+        ));*/
   }
 
   Future<List<String>> fetchGalleryData() async {
     try {
       final response = await http
           .get(
-          'https://kaleidosblog.s3-eu-west-1.amazonaws.com/flutter_gallery/data.json')
+              'https://kaleidosblog.s3-eu-west-1.amazonaws.com/flutter_gallery/data.json')
           .timeout(Duration(seconds: 5));
 
       if (response.statusCode == 200) {

@@ -19,12 +19,12 @@ class ChatPage extends StatefulWidget {
   final String idUser;
   final String message;
   final String category;
-  final String subcategory;
+  //final String subcategory;
   final String price;
   final String units;
 
 
-  const ChatPage(this.name, this.idUser, this.message, this.category, this.subcategory, this.price, this.units);
+  const ChatPage(this.name, this.idUser, this.message, this.category,  this.price, this.units);
 
   @override
   _ChatPageState createState() => _ChatPageState();

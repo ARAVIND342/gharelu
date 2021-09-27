@@ -13,13 +13,14 @@ import 'package:url_launcher/url_launcher.dart';
 class ListScreen extends StatelessWidget {
   //final int index;
   final String Category1;
-  final String SubCategory1;
+
+  //final String SubCategory1;
 
   //final String Price1;
 
   //final String SubCategory;
 
-  ListScreen(this.Category1, this.SubCategory1);
+  ListScreen(this.Category1);
 
   String username, email, uid, number, latitude2, longitude2, shopName;
 
@@ -54,7 +55,7 @@ class ListScreen extends StatelessWidget {
       });
 
     print("CATEGORY---- " + Category1);
-    print("SUBCATEGORY---- " + SubCategory1);
+    //print("SUBCATEGORY---- " + SubCategory1);
 
     //_getMinMaxLongLattoConsiderasperDistinact(latitude1, latitude2, 2);
 
@@ -62,7 +63,7 @@ class ListScreen extends StatelessWidget {
     QuerySnapshot qn = await firestore
         .collection("Selling details")
         .where('Category', isEqualTo: Category1)
-        .where('SubCategory', isEqualTo: SubCategory1)
+        //.where('SubCategory', isEqualTo: SubCategory1)
         //.where('radius', isLessThan: value)
         //.where(value, isLessThan: "10")
         //.where(_minLat,isLessThanOrEqualTo: latitude2)
@@ -81,15 +82,17 @@ class ListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('List of ${Category1}'),
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.orange,
       ),
-      backgroundColor: Colors.greenAccent,
+      backgroundColor: Colors.white,
       body: Container(
         child: FutureBuilder(
           future: _fetch(),
           builder: (_, snapshot) {
             if (snapshot.connectionState != ConnectionState.done)
-              return Center(child: CircularProgressIndicator(),);
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             return ListView.builder(
                 itemCount: snapshot.data != null ? snapshot.data.length : null,
                 itemBuilder: (_, index) {
@@ -104,6 +107,9 @@ class ListScreen extends StatelessWidget {
                     child: Card(
                       child: Column(
                         children: [
+                          SizedBox(
+                            height: 10,
+                          ),
                           ListTile(
                             leading: Container(
                               width: 70.0,
@@ -130,10 +136,6 @@ class ListScreen extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 16.0),
                                 ),
-                                Text(
-                                  data["SubCategory"],
-                                  style: TextStyle(fontSize: 14.0),
-                                ),
                                 Row(
                                   children: [
                                     Text(
@@ -146,7 +148,6 @@ class ListScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-
                                 //Text(data['Student uid']),
                               ],
                             ),
@@ -163,7 +164,7 @@ class ListScreen extends StatelessWidget {
                                 /*shape: RoundedRectangleBorder(
                                     borderRadius:
                                         new BorderRadius.circular(18.0)),*/
-                               // color: Colors.red,
+                                // color: Colors.red,
                                 onTap: () {
                                   //Navigator.push(context,MaterialPageRoute(builder: (context) => PostWizardStep1()));
                                   FirebaseFirestore.instance
@@ -177,7 +178,7 @@ class ListScreen extends StatelessWidget {
                                     'customer username': username,
                                     'seller uid': data['uid'],
                                     'Category': data["Category"],
-                                    'SubCategory': data["SubCategory"],
+                                    //'SubCategory': data["SubCategory"],
                                     'Price': "Rs ${data["Price"]}  ",
                                     'Units': data["units"],
                                     'Seller Name': data['Name']
@@ -187,14 +188,16 @@ class ListScreen extends StatelessWidget {
                                       builder: (BuildContext contxt) {
                                         return AlertDialog(
                                           title: Text("Success"),
-                                          content: Text(
-                                              "Ordered Successfully"),
+                                          content: Text("Ordered Successfully"),
                                           actions: [
                                             FlatButton(
                                               child: Text('OK'),
                                               onPressed: () {
+                                                Navigator.of(context,
+                                                        rootNavigator: true)
+                                                    .pop();
                                                 //Navigator.push(context,MaterialPageRoute(builder: (context) => PostWizardStep1()));
-                                                Navigator.of(context).pop();
+                                                //Navigator.of(context).pop();
                                               },
                                             )
                                           ],
@@ -202,25 +205,22 @@ class ListScreen extends StatelessWidget {
                                       });
                                 },
                                 child: Container(
-                                  height: 40,
-                                  width: 90,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    border: Border.all(color: Colors.green[50]),
-                                    color: Colors.red
-                                  ),
-                                    child: Center(
-                                        child: Text('order')
-                                    )
-                                ),
+                                    height: 40,
+                                    width: 90,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(20),
+                                        border:
+                                            Border.all(color: Colors.green[50]),
+                                        color: Colors.red),
+                                    child: Center(child: Text('order'))),
                               ),
                               SizedBox(
                                 width: 15,
                               ),
                               GestureDetector(
-                               // shape: RoundedRectangleBorder(
-                                 //   borderRadius:
-                                   //     new BorderRadius.circular(18.0)),
+                                // shape: RoundedRectangleBorder(
+                                //   borderRadius:
+                                //     new BorderRadius.circular(18.0)),
                                 //color: Colors.blue,
                                 onTap: () {
                                   "$data['number']" != null
@@ -237,8 +237,7 @@ class ListScreen extends StatelessWidget {
                                                   child: Text('OK'),
                                                   onPressed: () {
                                                     //Navigator.push(context,MaterialPageRoute(builder: (context) => PostWizardStep1()));
-                                                    Navigator.of(context)
-                                                        .pop();
+                                                    Navigator.of(context).pop();
                                                   },
                                                 )
                                               ],
@@ -250,21 +249,18 @@ class ListScreen extends StatelessWidget {
                                     width: 90,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(20),
-                                        border: Border.all(color: Colors.green[50]),
-                                        color: Colors.blue
-                                    ),
-                                    child: Center(
-                                        child: Text('call')
-                                    )
-                                ),
+                                        border:
+                                            Border.all(color: Colors.green[50]),
+                                        color: Colors.blue),
+                                    child: Center(child: Text('call'))),
                               ),
                               SizedBox(
                                 width: 15,
                               ),
                               GestureDetector(
                                 //shape: RoundedRectangleBorder(
-                                  //  borderRadius:
-                                    //    new BorderRadius.circular(18.0)),
+                                //  borderRadius:
+                                //    new BorderRadius.circular(18.0)),
                                 //color: Colors.green,
                                 onTap: () {
                                   Navigator.push(
@@ -320,13 +316,10 @@ class ListScreen extends StatelessWidget {
                                     width: 90,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(20),
-                                        border: Border.all(color: Colors.green[50]),
-                                        color: Colors.green
-                                    ),
-                                    child: Center(
-                                        child: Text('more')
-                                    )
-                                ),
+                                        border:
+                                            Border.all(color: Colors.green[50]),
+                                        color: Colors.green),
+                                    child: Center(child: Text('more'))),
                               ),
                             ],
                           ),
