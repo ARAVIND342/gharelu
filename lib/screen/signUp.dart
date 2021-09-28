@@ -28,7 +28,7 @@ class _SignUpState extends State<SignUp> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  double latitude1, longitude1;
+  var latitude1, longitude1;
 
   getCurrentLocation() async {
     final position = await Geolocator.getCurrentPosition(
@@ -43,7 +43,7 @@ class _SignUpState extends State<SignUp> {
 
   @override
   Widget build(BuildContext context) {
-    getCurrentLocation();
+    //getCurrentLocation();
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -209,13 +209,14 @@ class _SignUpState extends State<SignUp> {
                     SizedBox(
                       height: 60,
                     ),
-                    GestureDetector(
-                      child: Container(
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.orange[50]),
-                            color: Colors.orange[500]),
-                        width: 200.0,
-                        height: 50,
+                    Container(
+                      width: 180.0,
+                      height: 50,
+                      //decoration: BoxDecoration(
+                        //color: Colors.orange,
+                      //),
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(primary: Colors.orange),
                         child: Center(
                           child: Text(
                             'Sign Up',
@@ -223,63 +224,63 @@ class _SignUpState extends State<SignUp> {
                                 fontWeight: FontWeight.bold, fontSize: 20),
                           ),
                         ),
-                      ),
-                      onTap: () async {
-                        getCurrentLocation();
-                        //print("latitude::" + latitude1);
-                        //print("longitude::" + longitude1);
-                        //String mediaUrl = await uploadImage(file.path);
-                        if (_key.currentState.validate()) {
-                          FirebaseAuth.instance
-                              .createUserWithEmailAndPassword(
-                                  email: _emailContoller.text,
-                                  password: _passwordController.text)
-                              .then((signedInUser) {
-                            String uid;
-                            _firestore
-                                .collection('Users')
-                                .doc(signedInUser.user.uid)
-                                .set({
-                              "Full name": _nameController.text,
-                              "number": _numberController.text,
-                              "email": _emailContoller.text,
-                              "password": _passwordController.text,
-                              "uid": _auth.currentUser.uid,
-                              "latitude": latitude1,
-                              "longitude": longitude1,
-                              "location": GeoPoint(latitude1,longitude1),
-                              "shop name": _shopController.text,
-                            }).then((value) {
-                              if (signedInUser != null) {
-                                return showDialog(
-                                    context: context,
-                                    builder: (BuildContext contxt) {
-                                      return AlertDialog(
-                                        title: Text("Success"),
-                                        content: Text("Signed Up Successfully"),
-                                        actions: [
-                                          FlatButton(
-                                            child: Text('OK'),
-                                            onPressed: () {
-                                              Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Login()));
-                                            },
-                                          )
-                                        ],
-                                      );
-                                    });
-                              }
+                        onPressed: () async {
+                          getCurrentLocation();
+                          //print("latitude::" + latitude1);
+                          //print("longitude::" + longitude1);
+                          //String mediaUrl = await uploadImage(file.path);
+                          if (_key.currentState.validate()) {
+                            FirebaseAuth.instance
+                                .createUserWithEmailAndPassword(
+                                    email: _emailContoller.text,
+                                    password: _passwordController.text)
+                                .then((signedInUser) {
+                              String uid;
+                              _firestore
+                                  .collection('Users')
+                                  .doc(signedInUser.user.uid)
+                                  .set({
+                                "Full name": _nameController.text,
+                                "number": _numberController.text,
+                                "email": _emailContoller.text,
+                                "password": _passwordController.text,
+                                "uid": _auth.currentUser.uid,
+                                "latitude": latitude1.toString(),
+                                "longitude": longitude1.toString(),
+                                "location": GeoPoint(latitude1,longitude1),
+                                "shop name": _shopController.text,
+                              }).then((value) {
+                                if (signedInUser != null) {
+                                  return showDialog(
+                                      context: context,
+                                      builder: (BuildContext contxt) {
+                                        return AlertDialog(
+                                          title: Text("Success"),
+                                          content: Text("Signed Up Successfully"),
+                                          actions: [
+                                            FlatButton(
+                                              child: Text('OK'),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Login()));
+                                              },
+                                            )
+                                          ],
+                                        );
+                                      });
+                                }
+                              }).catchError((e) {
+                                print(e);
+                              });
                             }).catchError((e) {
                               print(e);
                             });
-                          }).catchError((e) {
-                            print(e);
-                          });
-                        }
-                      },
+                          }
+                        },
+                      ),
                     ),
                     SizedBox(
                       height: 30,

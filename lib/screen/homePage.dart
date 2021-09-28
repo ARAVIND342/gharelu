@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    pageController.dispose();
+    pageIndex == null ? pageController.dispose() : null;
     super.dispose();
   }
 

@@ -19,8 +19,8 @@ class _TopPickMerchantState extends State<TopPickMerchant> {
 
   String username, email, uid, number;
   double lat1, long1;
-  var latitude2;
-  var longitude2;
+  String latitude2;
+  String longitude2;
 
   _fetch1() async {
     final firebaseUser = await FirebaseAuth.instance.currentUser;
