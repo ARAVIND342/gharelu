@@ -319,15 +319,15 @@ class _HomeState extends State<Home> {
       body: Padding(
         padding: const EdgeInsets.only(left: 8.0),
         child: Container(
-          child: Column(
-            children: [
-              Expanded(
-                child: Container(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
                   height: 600,
                   child: TopPickMerchant(),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
