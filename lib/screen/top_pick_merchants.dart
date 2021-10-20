@@ -83,169 +83,179 @@ class _TopPickMerchantState extends State<TopPickMerchant> {
   Widget build(BuildContext context) {
     _fetch1();
     return Scaffold(
-      body: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  width: 100,
-                  //color: Colors.green,
-                  child: Container(
-                    padding: EdgeInsets.only(left: 20.0),
-                    child: ListTile(
-                      title: Container(
-                        width: 250,
-                        child: DropDownFormField(
-                          titleText: 'Select Category',
-                          hintText: 'Please choose one',
-                          value: _myActivity,
-                          onSaved: (value) {
-                            setState(() {
-                              _myActivity = value;
-                            });
-                          },
-                          onChanged: (value) {
-                            setState(() {
-                              _myActivity = value;
-                            });
-                          },
-                          dataSource: [
-                            {
-                              "display": "Veg Only Breakfast",
-                              "value": "Veg Only Breakfast",
-                            },
-                            {
-                              "display": "Veg Only Lunch",
-                              "value": "Veg Only Lunch",
-                            },
-                            {
-                              "display": "Veg Only Dinner",
-                              "value": "Veg Only Dinner",
-                            },
-                            {
-                              "display": "Non-Veg Only Breakfast",
-                              "value": "Non-Veg Only Breakfast",
-                            },
-                            {
-                              "display": "Non-Veg Only Lunch",
-                              "value": "Non-Veg Only Lunch",
-                            },
-                            {
-                              "display": "Non-Veg Only Dinner",
-                              "value": "Non-Veg Only Dinner",
-                            },
-                          ],
-                          textField: 'display',
-                          valueField: 'value',
-                        ),
-                      ),
-                    ),
-                    //margin: EdgeInsets.only(left: 20.0),
-                    //width: 250,
-
+      body: Container(
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(4.0),
+              child: ListTile(
+                title: Container(
+                  width: 250,
+                  child: DropDownFormField(
+                    titleText: 'Select Category',
+                    hintText: 'Please choose one',
+                    value: _myActivity,
+                    onSaved: (value) {
+                      setState(() {
+                        _myActivity = value;
+                      });
+                    },
+                    onChanged: (value) {
+                      setState(() {
+                        _myActivity = value;
+                      });
+                    },
+                    dataSource: [
+                      {
+                        "display": "Veg Only Breakfast",
+                        "value": "Veg Only Breakfast",
+                      },
+                      {
+                        "display": "Veg Only Lunch",
+                        "value": "Veg Only Lunch",
+                      },
+                      {
+                        "display": "Veg Only Dinner",
+                        "value": "Veg Only Dinner",
+                      },
+                      {
+                        "display": "Non-Veg Only Breakfast",
+                        "value": "Non-Veg Only Breakfast",
+                      },
+                      {
+                        "display": "Non-Veg Only Lunch",
+                        "value": "Non-Veg Only Lunch",
+                      },
+                      {
+                        "display": "Non-Veg Only Dinner",
+                        "value": "Non-Veg Only Dinner",
+                      },
+                    ],
+                    textField: 'display',
+                    valueField: 'value',
                   ),
                 ),
               ),
-              SizedBox(
-                width: 5,
-              ),
-            ],
-          ),
-          Expanded(
-            child: Container(
-              child: lat1 != null && long1 != null ? StreamBuilder<QuerySnapshot>(
-                  stream: getTopMerchants(),
-                  builder: (context, snapShot) {
-                    if (!snapShot.hasData)
-                      return Center(child: CircularProgressIndicator());
-                    return Column(
-                      children: [
-                        Container(
-                          child: Flexible(
-                            child: GridView.count(
-                              crossAxisCount: 2,
-                              scrollDirection: Axis.vertical,
-                              children: snapShot.data.docs
-                                  .map((DocumentSnapshot document) {
-                                    if(latitude2 != null)
-                                 if (double.parse(getDistance(document['location'])) <= 10 )
-                                return Padding(
-                                  padding: const EdgeInsets.all(4.0),
-                                  child: GestureDetector(
-                                    onTap: (){Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => ListScreen(
-                                              document["Category"],
-                                              //document["SubCategory"],
-                                            )));},
-                                    child: Container(
-                                      width: 100,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          SizedBox(
-                                            width: 125,
-                                            height: 110,
-                                            child: Card(
+              //margin: EdgeInsets.only(left: 20.0),
+              //width: 250,
+            ),
+            Expanded(
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: lat1 != null && long1 != null
+                    ? StreamBuilder<QuerySnapshot>(
+                        stream: getTopMerchants(),
+                        builder: (context, snapShot) {
+                          if (!snapShot.hasData)
+                            return Center(child: CircularProgressIndicator());
+                          return Column(
+                            children: [
+                              Expanded(
+                                child: GridView.count(
+                                  crossAxisCount: 2,
+                                  scrollDirection: Axis.vertical,
+                                  children: snapShot.data.docs != null
+                                      ? snapShot.data.docs
+                                          .map((DocumentSnapshot document) {
+                                          if (latitude2 !=
+                                              null) if (double.parse(
+                                                  getDistance(
+                                                      document['location'])) <=
+                                              10)
+                                            return Padding(
+                                              padding:
+                                                  const EdgeInsets.all(4.0),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ListScreen(
+                                                                document[
+                                                                    "Category"],
+                                                                //document["SubCategory"],
+                                                              )));
+                                                },
                                                 child: Container(
-                                              width: 100,
-                                              height: 110,
-                                              decoration: BoxDecoration(
-                                                image: DecorationImage(
-                                                  fit: BoxFit.fill,
-                                                  image: NetworkImage(
-                                                      document['image']),
-                                                ),
-                                              ),
-                                            )
-                                                /*child: ClipRRect(
+                                                  width: 100,
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: 125,
+                                                        height: 110,
+                                                        child: Card(
+                                                            child: Container(
+                                                          width: 100,
+                                                          height: 110,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            image:
+                                                                DecorationImage(
+                                                              fit: BoxFit.fill,
+                                                              image: NetworkImage(
+                                                                  document[
+                                                                      'image']),
+                                                            ),
+                                                          ),
+                                                        )
+                                                            /*child: ClipRRect(
                                               borderRadius: BorderRadius.circular(4),
                                               child: NetworkImage(document['image'],fit: BoxFit.cover,),
                                             ),*/
-                                                ),
-                                          ),
-                                          Flexible(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  height: 37,
-                                                  child: Text(
-                                                    document['Name'] +
-                                                        " - " +
-                                                        "${document['Price']}",
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 14,
-                                                    ),
-                                                    maxLines: 2,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                  ),
-                                                ),
-                                                Container(
-                                                  child: Text(
-                                                    //"${document['location']}",
-                                                    //'20 km',
-                                                    "${getDistance(document['location']) != null ? getDistance(document['location']) : " "} km ",
-                                                     //document['address'],
-                                                    style: TextStyle(
-                                                      color: Colors.grey,
-                                                      fontWeight:
-                                                      FontWeight.bold,
-                                                      fontSize: 12,
-                                                    ),
-                                                    maxLines: 2,
-                                                    overflow:
-                                                    TextOverflow.ellipsis,
-                                                  ),
-                                                ),
-                                                /*Container(
+                                                            ),
+                                                      ),
+                                                      Flexible(
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Container(
+                                                              height: 37,
+                                                              child: Text(
+                                                                document[
+                                                                        'Name'] +
+                                                                    " - " +
+                                                                    "${document['Price']}",
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 14,
+                                                                ),
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            ),
+                                                            Container(
+                                                              child: Text(
+                                                                //"${document['location']}",
+                                                                //'20 km',
+                                                                "${getDistance(document['location']) != null ? getDistance(document['location']) : " "} km ",
+                                                                //document['address'],
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontSize: 12,
+                                                                ),
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            ),
+                                                            /*Container(
                                                   child: Text(
                                                     //'20 km',
                                                     "${getDistance(document['location']) != null ? getDistance(document['location']) : " "} km ",
@@ -261,31 +271,35 @@ class _TopPickMerchantState extends State<TopPickMerchant> {
                                                         TextOverflow.ellipsis,
                                                   ),
                                                 ),*/
-                                              ],
-                                            ),
-                                          )
+                                                          ],
+                                                        ),
+                                                      )
 
-                                          // Text("${latitude2 == null ? " " : latitude2}"),
-                                          // Text("${longitude2 == null ? " " : longitude2}"),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                );
-                                //}
-                                //else{
-                                //Container();
-                                //}
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  }): Center(child:Text('Please select a category to get specific items')),
+                                                      // Text("${latitude2 == null ? " " : latitude2}"),
+                                                      // Text("${longitude2 == null ? " " : longitude2}"),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          //}
+                                          //else{
+                                          //Container();
+                                          //}
+                                        }).toList()
+                                      : Text(" "),
+                                ),
+                              ),
+                            ],
+                          );
+                        })
+                    : Center(
+                        child: Text(
+                            'Please select a category to get specific items')),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -97,6 +97,8 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
   // PickedFile _imageFile;
   // final ImagePicker _picker = ImagePicker();
 
+
+
   static DateFormat dateFormat = new DateFormat('yyyy/MM/dd');
 
   //DateTime startDate = DateTime.now();
@@ -246,6 +248,7 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
     print(_auth.currentUser.uid);
     setState(() {
       isUploading = true;
+      //return CircularProgressIndicator();
     });
     getCurrentLocation();
     //print("latitude::" +latitude1);
@@ -368,14 +371,20 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
   @override
   void initState() {
     // TODO: implement initState
-    getCurrentLocation();
     super.initState();
+    getCurrentLocation();
+    _categoryController.text.isEmpty;
+    _nameController.text.isEmpty;
+    _unitController.text.isEmpty;
+    setState(() {
+      file = null;
+      isUploading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     _fetch();
-
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
@@ -399,14 +408,6 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                /* Text(
-                    'Register Donation',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),*/
                 SizedBox(
                   height: 30,
                 ),
@@ -439,7 +440,7 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
                       DateTimePicker(
                         type: DateTimePickerType.dateTimeSeparate,
                         dateMask: 'd MMM, yyyy',
-                        initialValue: DateTime.now().toString(),
+                        //initialValue: DateTime.now().toString(),
                         firstDate: DateTime(2000),
                         lastDate: DateTime(2100),
                         icon: Icon(Icons.event),
@@ -471,8 +472,8 @@ class _PostWizardStep1State extends State<PostWizardStep1> {
                       DateTimePicker(
                         type: DateTimePickerType.dateTimeSeparate,
                         dateMask: 'd MMM, yyyy',
-                        initialValue:
-                            DateTime.now().add(Duration(days: 3)).toString(),
+                        //initialValue:
+                          //  DateTime.now().add(Duration(days: 3)).toString(),
                         firstDate: DateTime(2000),
                         lastDate: DateTime(2100),
                         icon: Icon(Icons.event),
