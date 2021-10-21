@@ -55,9 +55,9 @@ class _TopPickMerchantState extends State<TopPickMerchant> {
   }
 
   String getDistance(location) {
-    if (latitude2 != null) {
-      var distance = Geolocator.distanceBetween(double.parse(latitude2),
-          double.parse(longitude2), location.latitude, location.longitude);
+    if (lat1 != null) {
+      var distance = Geolocator.distanceBetween((lat1),
+          (long1), location.latitude, location.longitude);
       var distanceInKm = distance / 1000;
       return distanceInKm.toStringAsFixed(2);
     } else {
