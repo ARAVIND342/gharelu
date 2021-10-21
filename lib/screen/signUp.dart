@@ -28,21 +28,16 @@ class _SignUpState extends State<SignUp> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  String latitude1, longitude1;
-
-  String lat1 , long1;
+  var latitude1, longitude1;
 
   getCurrentLocation() async {
     final position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.best);
     setState(() {
-      latitude1 = "${position.latitude}";
-      longitude1 ="${position.longitude}";
+      latitude1 = position.latitude;
+      longitude1 = position.longitude;
       print("latitude:  " + "${latitude1}");
       print("longitude: " + "${longitude1}");
-
-      lat1 = position.latitude.toString();
-      long1 = position.longitude.toString();
     });
   }
 
@@ -250,9 +245,9 @@ class _SignUpState extends State<SignUp> {
                                 "email": _emailContoller.text,
                                 "password": _passwordController.text,
                                 "uid": _auth.currentUser.uid,
-                                "latitude": latitude1,
-                                "longitude": longitude1,
-                                //"location": GeoPoint(double.parse(latitude1),double.parse(longitude1)),
+                                "latitude": latitude1.toString(),
+                                "longitude": longitude1.toString(),
+                                "location": GeoPoint(latitude1,longitude1),
                                 "shop name": _shopController.text,
                               }).then((value) {
                                 if (signedInUser != null) {
